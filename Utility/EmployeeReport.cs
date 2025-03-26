@@ -1,5 +1,6 @@
 using OfficeOpenXml;
 using System.IO;
+using System.Net;
 using System.Text;
 
 namespace RIM_Task.Utility
@@ -13,7 +14,7 @@ namespace RIM_Task.Utility
             _config = config;
         }
 
-        public void GenerateExcelReport(List<Employee> filteredEmployees)
+        public ReturnModel GenerateExcelReport(List<Employee> filteredEmployees)
         {
             try
             {
@@ -53,16 +54,27 @@ namespace RIM_Task.Utility
 
                     File.WriteAllBytes(filePath, package.GetAsByteArray());
                 }
-
-                Console.WriteLine($"Excel report saved to: {filePath}");
+                return new ReturnModel
+                {
+                    IsSuccess = true,
+                    Reason = "",
+                    Response = $"Excel report saved to: {filePath}",
+                    httpStatusCode = HttpStatusCode.OK
+                };
             }
             catch(Exception ex)
             {
-                throw new ApplicationException("Error occured while generate Excel file", ex);
+                return new ReturnModel
+                {
+                    IsSuccess = false,
+                    Reason = $"Error occured while generate Excel file {ex}",
+                    Response = null,
+                    httpStatusCode = HttpStatusCode.InternalServerError
+                };
             }
         }
 
-        public void GenerateCSVReport(List<Employee> filteredEmployees)
+        public ReturnModel GenerateCSVReport(List<Employee> filteredEmployees)
         {
             try
             {
@@ -77,12 +89,23 @@ namespace RIM_Task.Utility
                         writer.WriteLine($"{emp.EmployeeID},{emp.EmployeeCode},{emp.Name},{emp.Company},{emp.Department},{emp.Designation},{emp.ReportId},{emp.DOB.ToString("yyyy-MM-dd")},{emp.MobileNo},{emp.EmailId},{(emp.ActiveStatus)}");
                     }
                 }
-
-                Console.WriteLine($"CSV report saved to: {filePath}");
+                return new ReturnModel
+                {
+                    IsSuccess = true,
+                    Reason = "",
+                    Response = $"CSV report saved to: {filePath}",
+                    httpStatusCode = HttpStatusCode.OK
+                };
             }
             catch(Exception exception)
             {
-                throw new ApplicationException("Error occured while generate CSV file", exception);
+                return new ReturnModel
+                {
+                    IsSuccess = false,
+                    Reason = $"Error occured while generate CSV file {exception}",
+                    Response = null,
+                    httpStatusCode = HttpStatusCode.InternalServerError
+                };
             }
         }
     }

@@ -1,4 +1,5 @@
 using System.Data;
+using System.Net;
 using OfficeOpenXml;
 using RIM_Task.Services;
 using RIM_Task.Utility;
@@ -12,7 +13,7 @@ namespace RIM_Task.Repository
         {
             _config = config;
         }
-        public List<Employee> readEmployeeData()
+        public ReturnModel readEmployeeData()
         {
             try
             {
@@ -46,45 +47,71 @@ namespace RIM_Task.Repository
                     }
                 }
 
-                return employees;
-            }
-            catch (FileNotFoundException ex)
-            {
-                throw new ApplicationException("Excel file is missing. Please upload a valid file.", ex);
-            }
-            catch (InvalidDataException ex)
-            {
-                throw new ApplicationException("The Excel worksheet is empty or missing.", ex);
-            }
-            catch (FormatException ex)
-            {
-                throw new ApplicationException("Excel file format is incorrect. Please check the headers and data.", ex);
-            }
-            catch (IOException ex)
-            {
-                throw new ApplicationException("Error reading the Excel file. The file might be open in another application.", ex);
+                return new ReturnModel
+                {
+                    IsSuccess = true,
+                    Reason = "",
+                    Response = employees,
+                    httpStatusCode = HttpStatusCode.OK
+                };
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("An unexpected error occurred while reading the Excel file.", ex);
+                return new ReturnModel
+                {
+                    IsSuccess = false,
+                    Reason = $"Error occured in read Employee data {ex.Message}",
+                    Response = null,
+                    httpStatusCode = HttpStatusCode.InternalServerError
+                };
             }
         }
     
-        public List<Employee> filterEmployee(Func<Employee,bool> predicate )
+        public ReturnModel filterEmployee(Func<Employee,bool> predicate )
         {
             try
             {
-                List<Employee> employees = readEmployeeData();
-                List<Employee> filteredEmployees = employees.Where(predicate).ToList();
-                foreach(var employee in filteredEmployees)
+                ReturnModel returnModel = readEmployeeData();
+                if(returnModel.IsSuccess == true)
                 {
-                    Console.WriteLine(employee.Name);
+                    List<Employee> employees = (List<Employee>)readEmployeeData().Response;
+                    List<Employee> filteredEmployees = employees.Where(predicate).ToList();
+                    foreach(var employee in filteredEmployees)
+                    {
+                        Console.WriteLine(employee.Name);
+                    }
+                    return new ReturnModel
+                    {
+                        IsSuccess = true,
+                        Reason = "",
+                        Response = filteredEmployees,
+                        httpStatusCode = HttpStatusCode.OK
+                    };
                 }
-                return filteredEmployees;
+                else
+                {
+                    return returnModel;
+                }
             }
             catch(ApplicationException applicationException)
             {
-                throw new ApplicationException("Error occured while filtering the employee from list of employees data", applicationException);
+                return new ReturnModel
+                {
+                    IsSuccess = false,
+                    Reason = $"Error occured while filtering the employee from list of employees data {applicationException}",
+                    Response = null,
+                    httpStatusCode = HttpStatusCode.BadRequest
+                };
+            }
+            catch(Exception exception)
+            {
+                return new ReturnModel
+                {
+                    IsSuccess = false,
+                    Reason = $"Error occured in filter Employee data {exception.Message}",
+                    Response = null,
+                    httpStatusCode = HttpStatusCode.InternalServerError
+                };
             }
         }
     }

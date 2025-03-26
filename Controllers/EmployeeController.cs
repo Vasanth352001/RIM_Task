@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using RIM_Task.Services;
 
@@ -17,19 +18,37 @@ namespace RIM_Task.Controllers
 
         [HttpPost]
         [Route("getEmployee")]
-        public IActionResult GetEmployees([FromBody] EmployeeFilter employeeFilter, string resultFileType)
+        public ReturnModel GetEmployees([FromBody] EmployeeFilter employeeFilter, string resultFileType)
         {
             try
             {
-                return Ok(_employeeService.filterEmployee(employeeFilter, resultFileType));
+                return new ReturnModel
+                {
+                    IsSuccess = true,
+                    Reason = "",
+                    Response = _employeeService.filterEmployee(employeeFilter, resultFileType),
+                    httpStatusCode = HttpStatusCode.OK
+                };
             } 
             catch(ArgumentException argumentException)
             {
-                return BadRequest(new { message = argumentException.Message });
+                return new ReturnModel
+                {
+                    IsSuccess = false,
+                    Reason = argumentException.Message,
+                    Response = null,
+                    httpStatusCode = HttpStatusCode.BadRequest
+                };
             }
             catch(Exception exception)
             {
-                return StatusCode(500, new { message = "Internal Server Error", error = exception.Message });
+                return new ReturnModel
+                {
+                    IsSuccess = false,
+                    Reason = $"Internal Server Error {exception.Message}",
+                    Response = null,
+                    httpStatusCode = HttpStatusCode.InternalServerError
+                };
             }
 
         }

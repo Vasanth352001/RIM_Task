@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "d:\\Documents\\Vasanth-Training\\WebAPI\\RIM_Task\\RIM_Task.csproj": {}
+    "D:\\Documents\\Vasanth-Training\\WebAPI\\RIM_Task\\RIM_Task.csproj": {}
   },
   "projects": {
-    "d:\\Documents\\Vasanth-Training\\WebAPI\\RIM_Task\\RIM_Task.csproj": {
+    "D:\\Documents\\Vasanth-Training\\WebAPI\\RIM_Task\\RIM_Task.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\Documents\\Vasanth-Training\\WebAPI\\RIM_Task\\RIM_Task.csproj",
+        "projectUniqueName": "D:\\Documents\\Vasanth-Training\\WebAPI\\RIM_Task\\RIM_Task.csproj",
         "projectName": "RIM_Task",
-        "projectPath": "d:\\Documents\\Vasanth-Training\\WebAPI\\RIM_Task\\RIM_Task.csproj",
+        "projectPath": "D:\\Documents\\Vasanth-Training\\WebAPI\\RIM_Task\\RIM_Task.csproj",
         "packagesPath": "C:\\Users\\vasanth.raja\\.nuget\\packages\\",
-        "outputPath": "d:\\Documents\\Vasanth-Training\\WebAPI\\RIM_Task\\obj\\",
+        "outputPath": "D:\\Documents\\Vasanth-Training\\WebAPI\\RIM_Task\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\vasanth.raja\\AppData\\Roaming\\NuGet\\NuGet.Config"
