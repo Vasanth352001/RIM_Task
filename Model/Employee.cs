@@ -11,7 +11,7 @@ public class Employee
     public DateTime DOB { get; set; } 
     public string MobileNo { get; set; } 
     public string EmailId { get; set; } 
-    public bool ActiveStatus { get; set; }
+    public string ActiveStatus { get; set; }
 }
 
 public class EmployeeFilter
@@ -19,5 +19,5 @@ public class EmployeeFilter
     public string Company { get; set; } 
     public string Department { get; set; } 
     public string Designation { get; set; }
-    public bool? ActiveStatus { get; set; }
+    public string ActiveStatus { get; set; }
 }

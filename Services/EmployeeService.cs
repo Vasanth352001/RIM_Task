@@ -22,7 +22,7 @@ namespace RIM_Task.Services
             try
             {
                 List<Employee> filteredEmployees = _employeeRepository.filterEmployee(data => (data.Company == filter.Company) && (data.Department == filter.Department) &&
-                (data.Designation == filter.Designation) && (data.ActiveStatus == filter.ActiveStatus.Value));
+                (data.Designation == filter.Designation) && (data.ActiveStatus == filter.ActiveStatus));
 
                 if(resultFileType.ToLower().Equals("csv"))
                 {

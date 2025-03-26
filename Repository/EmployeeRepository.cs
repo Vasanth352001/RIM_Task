@@ -40,7 +40,7 @@ namespace RIM_Task.Repository
                             DOB = Convert.ToDateTime(worksheet.Cells[row, 8].Value),
                             MobileNo = worksheet.Cells[row, 9].Text,
                             EmailId = worksheet.Cells[row, 10].Text,
-                            ActiveStatus = worksheet.Cells[row, 11].Text.ToLower() == "active"
+                            ActiveStatus = worksheet.Cells[row, 11].Text
                         };
                         employees.Add(emp);
                     }

@@ -47,7 +47,7 @@ namespace RIM_Task.Utility
                         worksheet.Cells[row, 8].Value = employee.DOB.ToString("yyyy-MM-dd");
                         worksheet.Cells[row, 9].Value = employee.MobileNo;
                         worksheet.Cells[row, 10].Value = employee.EmailId;
-                        worksheet.Cells[row, 11].Value = employee.ActiveStatus ? "Active" : "Inactive";
+                        worksheet.Cells[row, 11].Value = employee.ActiveStatus;
                         row++;
                     }
 
@@ -74,7 +74,7 @@ namespace RIM_Task.Utility
 
                     foreach (var emp in filteredEmployees)
                     {
-                        writer.WriteLine($"{emp.EmployeeID},{emp.EmployeeCode},{emp.Name},{emp.Company},{emp.Department},{emp.Designation},{emp.ReportId},{emp.DOB.ToString("yyyy-MM-dd")},{emp.MobileNo},{emp.EmailId},{(emp.ActiveStatus ? "Active" : "Inactive")}");
+                        writer.WriteLine($"{emp.EmployeeID},{emp.EmployeeCode},{emp.Name},{emp.Company},{emp.Department},{emp.Designation},{emp.ReportId},{emp.DOB.ToString("yyyy-MM-dd")},{emp.MobileNo},{emp.EmailId},{(emp.ActiveStatus)}");
                     }
                 }
 
