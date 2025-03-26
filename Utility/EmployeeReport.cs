@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
 using System.IO;
 using System.Net;
@@ -18,7 +19,8 @@ namespace RIM_Task.Utility
         {
             try
             {
-                string filePath = $@"{_config["FolderPath:ResultFileFolder"]}/EmployeeList_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.xlsx";
+                string fileName = $"EmployeeList_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.xlsx";
+                string filePath = $@"{_config["FolderPath:ResultFileFolder"]}/{fileName}";
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
                 using (var package = new ExcelPackage())
                 {
@@ -54,12 +56,18 @@ namespace RIM_Task.Utility
 
                     File.WriteAllBytes(filePath, package.GetAsByteArray());
                 }
+                
                 return new ReturnModel
                 {
                     IsSuccess = true,
                     Reason = "",
                     Response = $"Excel report saved to: {filePath}",
-                    httpStatusCode = HttpStatusCode.OK
+                    httpStatusCode = HttpStatusCode.OK,
+                    fileDetail = new FileDetail
+                    {
+                        fileName = fileName,
+                        filePath = filePath
+                    }
                 };
             }
             catch(Exception ex)
@@ -78,7 +86,8 @@ namespace RIM_Task.Utility
         {
             try
             {
-                string filePath = $@"{_config["FolderPath:ResultFileFolder"]}\EmployeeList_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.csv";
+                string fileName = $"EmployeeList_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.csv";
+                string filePath = $@"{_config["FolderPath:ResultFileFolder"]}/{fileName}";
                 using (FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
                 using (StreamWriter writer = new StreamWriter(fs, Encoding.UTF8))
                 {
@@ -94,7 +103,12 @@ namespace RIM_Task.Utility
                     IsSuccess = true,
                     Reason = "",
                     Response = $"CSV report saved to: {filePath}",
-                    httpStatusCode = HttpStatusCode.OK
+                    httpStatusCode = HttpStatusCode.OK,
+                    fileDetail = new FileDetail
+                    {
+                        fileName = fileName,
+                        filePath = filePath
+                    }
                 };
             }
             catch(Exception exception)
@@ -108,6 +122,6 @@ namespace RIM_Task.Utility
                 };
             }
         }
+    
     }
-
 }

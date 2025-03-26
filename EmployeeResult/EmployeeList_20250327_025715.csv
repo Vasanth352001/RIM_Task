@@ -1,0 +1,3 @@
+﻿Employee ID,Employee Code,Name,Company,Department,Designation,Report ID,Date of Birth,Mobile No,Email ID,Active Status
+1001,EMP1001,Vishnu,ABC Corp,IT,Software Engineer,2001,1990-05-15,9876543210,vishnu@abccorp.com,Active
+1014,EMP1014,Sriram,ABC Corp,IT,Software Engineer,2001,1993-04-25,9876543223,sriram@abccorp.com,Active

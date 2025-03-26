@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RIM_Task")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ce6143323c7f12acba9aaa5c3b0eb38a3b6fc865")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f1e7803b469666d14caa6d307ebfa07a4c4a5f0d")]
 [assembly: System.Reflection.AssemblyProductAttribute("RIM_Task")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RIM_Task")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

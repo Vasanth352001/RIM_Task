@@ -1,4 +1,5 @@
 using System.Net;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using RIM_Task.Services;
 
@@ -10,47 +11,47 @@ namespace RIM_Task.Controllers
     public class Employee : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
+        private readonly IWebHostEnvironment _env;
 
-        public Employee(IEmployeeService employeeService)
+        public Employee(IEmployeeService employeeService, IWebHostEnvironment env)
         {
             _employeeService = employeeService;
+            _env = env;
         }
 
         [HttpPost]
         [Route("getEmployee")]
-        public ReturnModel GetEmployees([FromBody] EmployeeFilter employeeFilter, string resultFileType)
+        public IActionResult GetEmployees([FromBody] EmployeeFilter employeeFilter, string resultFileType)
         {
-            try
+            var result = _employeeService.filterEmployee(employeeFilter, resultFileType);
+            if(result.IsSuccess == true)
             {
-                return new ReturnModel
+                if(resultFileType.ToLower().Equals("xlsx"))
                 {
-                    IsSuccess = true,
-                    Reason = "",
-                    Response = _employeeService.filterEmployee(employeeFilter, resultFileType),
-                    httpStatusCode = HttpStatusCode.OK
-                };
-            } 
-            catch(ArgumentException argumentException)
-            {
-                return new ReturnModel
+                    var fileBytes = System.IO.File.ReadAllBytes(result.fileDetail.filePath);
+                    FileContentResult employeeDetailsFile = File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", result.fileDetail.fileName);
+                    return employeeDetailsFile;
+                }
+                else
                 {
-                    IsSuccess = false,
-                    Reason = argumentException.Message,
-                    Response = null,
-                    httpStatusCode = HttpStatusCode.BadRequest
-                };
+                    var fileBytes = System.IO.File.ReadAllBytes(result.fileDetail.filePath);
+                    FileContentResult file = File(fileBytes, "text/csv", result.fileDetail.fileName);
+                    return file;
+                }
             }
-            catch(Exception exception)
+            else if(result.httpStatusCode == HttpStatusCode.BadRequest)
             {
-                return new ReturnModel
-                {
-                    IsSuccess = false,
-                    Reason = $"Internal Server Error {exception.Message}",
-                    Response = null,
-                    httpStatusCode = HttpStatusCode.InternalServerError
-                };
+                return BadRequest(result.Reason);
             }
-
+            else if(result.httpStatusCode == HttpStatusCode.NotFound)
+            {
+                return NotFound(result.Reason);
+            }    
+            else
+            {
+                return StatusCode(500, new { message = result.Reason, error = result.Reason });
+            }
         }
+
     }
 }

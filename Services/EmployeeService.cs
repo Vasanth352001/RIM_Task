@@ -42,7 +42,8 @@ namespace RIM_Task.Services
                                     IsSuccess = true,
                                     Reason = "",
                                     Response = filteredEmployees,
-                                    httpStatusCode = HttpStatusCode.OK
+                                    httpStatusCode = HttpStatusCode.OK,
+                                    fileDetail = result.fileDetail
                                 };
                             }
                             else
@@ -60,7 +61,8 @@ namespace RIM_Task.Services
                                     IsSuccess = true,
                                     Reason = "",
                                     Response = filteredEmployees,
-                                    httpStatusCode = HttpStatusCode.OK
+                                    httpStatusCode = HttpStatusCode.OK,
+                                    fileDetail = result.fileDetail
                                 };
                             }
                             else
