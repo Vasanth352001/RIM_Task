@@ -29,7 +29,7 @@ namespace RIM_Task.Controllers
             }
             catch(Exception exception)
             {
-                return StatusCode(500, new { message = "Internal Server Errorr", error = exception.Message });
+                return StatusCode(500, new { message = "Internal Server Error", error = exception.Message });
             }
 
         }
