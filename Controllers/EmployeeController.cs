@@ -11,12 +11,10 @@ namespace RIM_Task.Controllers
     public class Employee : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
-        private readonly IWebHostEnvironment _env;
 
-        public Employee(IEmployeeService employeeService, IWebHostEnvironment env)
+        public Employee(IEmployeeService employeeService)
         {
             _employeeService = employeeService;
-            _env = env;
         }
 
         [HttpPost]
